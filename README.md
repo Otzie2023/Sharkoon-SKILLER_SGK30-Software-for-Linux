@@ -44,7 +44,7 @@ sudo python3 sgk30_json_to_keyboard.py --json "LightPattern.json" --frame 0 --sl
 
 ## 🎨 Custom Lighting Patterns
 
-Instead of `"LightPattern.json"`, you can use any compatible JSON pattern file.
+Instead of `"Liçtmuster.json"`, you can use any compatible JSON pattern file.
 
 Example:
 
