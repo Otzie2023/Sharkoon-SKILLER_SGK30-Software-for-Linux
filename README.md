@@ -35,8 +35,13 @@ sudo python3 sgk30_json_to_keyboard.py --json "Liçtmuster.json" --frame 0 --slo
 | Argument | Description |
 |----------|------------|
 | `--json` | Path to the JSON lighting pattern file |
-| `--frame` | Frame index to display |
-| `--slow` | Enables slower animation speed |
+| `--frame` | Index of the frame to send (0-based) |
+| `--slow` | Enable slow per-key sending for non-uniform frames (test mode) |
+| `--loop` | Continuously loop through all frames |
+| `--fps` | Playback speed in frames per second (used with `--loop`) |
+| `--dev` | Manually specify the `/dev/hidrawX` device path |
+| `--sleep` | Delay in seconds between per-key HID reports (used with `--slow`) |
+| `--no-init` | Skip sending device initialization reports |
 
 > ⚠️ Root privileges are required to communicate with the keyboard.
 
