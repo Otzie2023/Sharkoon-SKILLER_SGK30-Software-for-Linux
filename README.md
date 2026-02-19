@@ -27,7 +27,7 @@ This project provides an **unofficial Linux solution** to control the keyboard l
 Run the script with the required arguments:
 
 ```bash
-sudo python3 sgk30_json_to_keyboard.py --json "LightPattern.json" --frame 0 --slow
+sudo python3 sgk30_json_to_keyboard.py --json "Liçtmuster.json" --frame 0 --slow
 ```
 
 ### Required Arguments
