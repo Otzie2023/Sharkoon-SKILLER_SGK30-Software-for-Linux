@@ -1,67 +1,132 @@
-# Sharkoon SKILLER SGK30 – Linux Lighting Control
+# Sharkoon SKILLER SGK30 – Linux Control (Ubuntu 24)
 
-The **Sharkoon SKILLER SGK30** keyboard officially supports **Windows only**.  
-This project provides an **unofficial Linux solution** to control the keyboard lighting using custom JSON lighting patterns.
+This collection of Python scripts enables control of the RGB lighting of the **Sharkoon SKILLER SGK30** on Ubuntu 24 – without Windows software and without PCAP replay.
 
----
+Supported features:
 
-## ✨ Features
-
-- Control RGB lighting under Linux
-- Load custom lighting patterns from JSON files
-- Select animation frames
-- Adjustable playback speed
+* Activating onboard profiles (animation continues running independently)
+* Setting static (per-key) lighting patterns from JSON
+* Setting a solid color
+* Debug display of the target state in the terminal
 
 ---
 
-## 📦 Requirements
+# ⚙️ Requirements
 
-- Linux system
-- Python 3
-- `sudo` privileges (required for USB device access)
+* Ubuntu 24
+* Python 3
+* Root privileges for access to `/dev/hidraw*`
+
+The scripts usually need to be executed with `sudo`.
 
 ---
 
-## 🚀 Usage
+# 📁 Project Structure
 
-Run the script with the required arguments:
+## Main Script
+
+### `sgk30_profile_activate.py`
+
+Central control program for:
+
+* Activating saved profiles
+* Setting static custom patterns or animated ones
+* Setting a solid color
+
+---
+
+# 🚀 Usage
+
+## 1️⃣ Activate Onboard Profile (recommended for animations)
+
+The animation continues running without software after activation.
 
 ```bash
-sudo python3 sgk30_json_to_keyboard.py --json "Liçtmuster.json" --frame 0 --slow
+sudo python3 sgk30_profile_activate.py --json "Profile 2.json" --activate
 ```
 
-### Required Arguments
-
-| Argument | Description |
-|----------|------------|
-| `--json` | Path to the JSON lighting pattern file |
-| `--frame` | Index of the frame to send (0-based) |
-| `--slow` | Enable slow per-key sending for non-uniform frames (test mode) |
-| `--loop` | Continuously loop through all frames |
-| `--fps` | Playback speed in frames per second (used with `--loop`) |
-| `--dev` | Manually specify the `/dev/hidrawX` device path |
-| `--sleep` | Delay in seconds between per-key HID reports (used with `--slow`) |
-| `--no-init` | Skip sending device initialization reports |
-
-> ⚠️ Root privileges are required to communicate with the keyboard.
-
----
-
-## 🎨 Custom Lighting Patterns
-
-Instead of `"Liçtmuster.json"`, you can use any compatible JSON pattern file.
-
-Example:
+Or:
 
 ```bash
-sudo python3 sgk30_json_to_keyboard.py --json "rainbow.json" --frame 2 --slow
+sudo python3 sgk30_profile_activate.py --json "Profile 4.json" --activate
 ```
-
-You can create your own lighting effects by modifying or creating new JSON files.
 
 ---
 
-## ⚠️ Disclaimer
+## 2️⃣ Set Static Custom Lighting Pattern
 
-This is an **unofficial Linux tool** and is not affiliated with Sharkoon.  
-Use at your own risk.
+Uses frame 0 from `CustomLightMode`:
+
+```bash
+sudo python3 sgk30_profile_activate.py --json "LightingPattern.json" --custom-static
+```
+
+If it becomes unstable or a `BrokenPipeError` appears:
+
+```bash
+sudo python3 sgk30_profile_activate.py --json "LightingPattern.json" --custom-static --custom-sleep 0.02
+```
+
+`--custom-sleep` slows down the sending of per-key reports.
+
+---
+
+## 3️⃣ Set Solid Color
+
+```bash
+sudo python3 sgk30_profile_activate.py --json "Profile 2.json" --solid 255,0,0
+```
+
+Format: `R,G,B`
+
+Examples:
+
+* `255,0,0` → Red
+* `0,255,0` → Green
+* `0,0,255` → Blue
+
+---
+
+# 🛠 Troubleshooting
+
+## BrokenPipeError
+
+Occurs when reports are sent too quickly.
+
+Solution:
+
+```bash
+--custom-sleep 0.02
+```
+
+Increase the value if necessary (0.03, 0.04 ...).
+
+---
+
+## Nothing happens
+
+Possibly the wrong `hidraw` interface.
+
+Optionally specify it explicitly:
+
+```bash
+sudo python3 sgk30_profile_activate.py --dev /dev/hidraw2 --json "Profile 2.json" --activate
+```
+
+---
+
+# 🧠 Technical Note
+
+Control is performed via HID reports directly to the keyboard’s RGB interface.
+
+Animations are stored or activated onboard, so no background software is required.
+
+---
+
+# ⚠️ Disclaimer
+
+Use at your own risk. Direct HID communication may cause instability if used incorrectly.
+
+---
+
+Have fun reverse engineering and tinkering 🚀
