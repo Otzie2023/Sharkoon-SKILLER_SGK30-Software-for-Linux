@@ -58,13 +58,13 @@ sudo python3 sgk30_profile_activate.py --json "Profile 4.json" --activate
 Uses frame 0 from `CustomLightMode`:
 
 ```bash
-sudo python3 sgk30_profile_activate.py --json "LightingPattern.json" --custom-static
+sudo python3 sgk30_profile_activate.py --json "Liçtmuster.json" --custom-static
 ```
 
 If it becomes unstable or a `BrokenPipeError` appears:
 
 ```bash
-sudo python3 sgk30_profile_activate.py --json "LightingPattern.json" --custom-static --custom-sleep 0.02
+sudo python3 sgk30_profile_activate.py --json "Liçtmuster.json" --custom-static --custom-sleep 0.02
 ```
 
 `--custom-sleep` slows down the sending of per-key reports.
