@@ -76,7 +76,7 @@ def get_custom_frames(profile: Dict[str, Any]) -> List[List[Tuple[int,int,int]]]
         out.append([(int(c.get("Red",0))&0xFF, int(c.get("Green",0))&0xFF, int(c.get("Blue",0))&0xFF) for c in frame])
     return out
 
-# --- Helpers: PCAP-basierte Sequenzen (funktionieren bei dir) ---
+
 def rpt(hexstr: str) -> bytes:
     return bytes.fromhex(hexstr)
 
